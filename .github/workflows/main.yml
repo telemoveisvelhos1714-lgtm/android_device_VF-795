@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-22.04
     container:
       image: fr3akyphantom/droid-builder:latest
+      options: --user root
     steps:
       - name: Limpar espaco em disco
         run: |
@@ -15,11 +16,13 @@ jobs:
 
       - name: Configurar Repo e Git
         run: |
+          export HOME=/root
           git config --global user.email "builder@vf795.local"
           git config --global user.name "VF795 Builder"
 
       - name: Sincronizar codigo-fonte TWRP 5.1
         run: |
+          export HOME=/root
           mkdir -p /root/twrp
           cd /root/twrp
           repo init --depth=1 -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-5.1
@@ -28,10 +31,13 @@ jobs:
       - name: Copiar a tua Device Tree
         uses: actions/checkout@v4
         with:
-          path: /root/twrp/device/vodafone/VF-795
+          path: twrp-device-tree
 
-      - name: Compilar recovery.img
+      - name: Mover Device Tree e Compilar recovery.img
         run: |
+          export HOME=/root
+          mkdir -p /root/twrp/device/vodafone/VF-795
+          cp -r twrp-device-tree/* /root/twrp/device/vodafone/VF-795/
           cd /root/twrp
           source build/envsetup.sh
           export ALLOW_MISSING_DEPENDENCIES=true
