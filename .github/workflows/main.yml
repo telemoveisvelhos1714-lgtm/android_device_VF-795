@@ -34,6 +34,7 @@ jobs:
           path: twrp-device-tree
 
       - name: Mover Device Tree e Compilar recovery.img
+        shell: bash
         run: |
           export HOME=/root
           mkdir -p /root/twrp/device/vodafone/VF-795
@@ -43,9 +44,10 @@ jobs:
           export ALLOW_MISSING_DEPENDENCIES=true
           lunch omni_VF-795-eng
           mka recoveryimage
+          cp /root/twrp/out/target/product/VF-795/recovery.img $GITHUB_WORKSPACE/recovery.img
 
       - name: Guardar ficheiro recovery.img compilado
         uses: actions/upload-artifact@v4
         with:
           name: TWRP-VF-795
-          path: /root/twrp/out/target/product/VF-795/recovery.img
+          path: recovery.img
