@@ -1,0 +1,52 @@
+name: Build TWRP VF-795
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Limpar espaco em disco
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost
+          df -h
+
+      - name: Instalar dependencias de compilacao
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev python2
+
+      - name: Configurar Repo e Git
+        run: |
+          mkdir -p ~/bin
+          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+          chmod a+x ~/bin/repo
+          git config --global user.email "builder@vf795.local"
+          git config --global user.name "VF795 Builder"
+
+      - name: Sincronizar codigo-fonte TWRP 5.1
+        run: |
+          mkdir -p ~/twrp
+          cd ~/twrp
+          ~/bin/repo init --depth=1 -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-5.1
+          ~/bin/repo sync -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
+
+      - name: Copiar a tua Device Tree
+        uses: actions/checkout@v3
+        with:
+          path: twrp/device/vodafone/VF-795
+
+      - name: Compilar recovery.img
+        run: |
+          cd ~/twrp
+          source build/envsetup.sh
+          export ALLOW_MISSING_DEPENDENCIES=true
+          lunch omni_VF-795-eng
+          mka recoveryimage
+
+      - name: Guardar ficheiro recovery.img compilado
+        uses: actions/upload-artifact@v3
+        with:
+          name: TWRP-VF-795
+          path: ~/twrp/out/target/product/VF-795/recovery.img
