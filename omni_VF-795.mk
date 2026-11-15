@@ -1,7 +1,8 @@
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_minimal.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/embedded.mk)
-$(call inherit-product, vendor/omni/config/common.mk)
+
+# Inherit common TWRP / Omni stuff if available
+$(call inherit-product-if-exists, vendor/omni/config/common.mk)
 
 PRODUCT_COPY_FILES += device/vodafone/VF-795/prebuilt/zImage:kernel
 
