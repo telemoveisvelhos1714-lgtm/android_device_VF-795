@@ -42,7 +42,7 @@ jobs:
           cd /root/twrp
           source build/envsetup.sh
           export ALLOW_MISSING_DEPENDENCIES=true
-          lunch omni_VF-795
+          lunch omni_VF-795-eng
           mka recoveryimage
           cp /root/twrp/out/target/product/VF-795/recovery.img $GITHUB_WORKSPACE/recovery.img
 
