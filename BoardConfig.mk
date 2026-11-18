@@ -1,4 +1,4 @@
-LOCAL_PATH := device/vodafone/VF-795
+LOCAL_PATH := device/vodafone/VF_795
 
 TARGET_BOARD_PLATFORM := mt6735
 TARGET_NO_BOOTLOADER := true
