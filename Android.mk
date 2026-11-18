@@ -1,6 +1,6 @@
-ifneq ($(filter VF-795,$(TARGET_DEVICE)),)
+ifneq ($(filter VF_795,$(TARGET_DEVICE)),)
 
-LOCAL_PATH := device/vodafone/VF-795
+LOCAL_PATH := device/vodafone/VF_795
 
 include $(call all-makefiles-under,$(LOCAL_PATH))
 
