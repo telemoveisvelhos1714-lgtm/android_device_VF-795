@@ -37,17 +37,17 @@ jobs:
         shell: bash
         run: |
           export HOME=/root
-          mkdir -p /root/twrp/device/vodafone/VF-795
-          cp -r twrp-device-tree/* /root/twrp/device/vodafone/VF-795/
+          mkdir -p /root/twrp/device/vodafone/VF_795
+          cp -r twrp-device-tree/* /root/twrp/device/vodafone/VF_795/
           cd /root/twrp
           source build/envsetup.sh
           export ALLOW_MISSING_DEPENDENCIES=true
-          lunch omni_VF-795-eng
+          lunch omni_VF_795-eng
           mka recoveryimage
-          cp /root/twrp/out/target/product/VF-795/recovery.img $GITHUB_WORKSPACE/recovery.img
+          cp /root/twrp/out/target/product/VF_795/recovery.img $GITHUB_WORKSPACE/recovery.img
 
       - name: Guardar ficheiro recovery.img compilado
         uses: actions/upload-artifact@v4
         with:
-          name: TWRP-VF-795
+          name: TWRP-VF_795
           path: recovery.img
