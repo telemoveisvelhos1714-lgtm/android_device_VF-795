@@ -1,5 +1,5 @@
-LOCAL_PATH := device/vodafone/VF-795
+LOCAL_PATH := device/vodafone/VF_795
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_PATH)/omni_VF-795.mk
+    $(LOCAL_PATH)/omni_VF_795.mk
 	
