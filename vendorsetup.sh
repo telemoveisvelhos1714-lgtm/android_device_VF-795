@@ -1,1 +1,1 @@
-add_lunch_combo omni_VF-795-eng
+add_lunch_combo omni_VF_795-eng
